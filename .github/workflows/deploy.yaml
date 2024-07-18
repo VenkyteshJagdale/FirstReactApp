@@ -1,9 +1,22 @@
 name: CI/CD for React App
 
+# Triggers the workflow on different events
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
+      - develop
+  pull_request:
+    branches: 
+      - main
+      - develop
   workflow_dispatch:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: "0 0 * * *"
+  repository_dispatch:
+    types: 
+      - build
 
 permissions:
   contents: write
@@ -13,24 +26,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step to checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step to set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # Step to install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Step to build the project
       - name: Build Project
         run: npm run build
         env:
-            TEXT: ${{ vars.TEXT}}  
+          TEXT: ${{ secrets.TEXT }}
 
+      # Step to deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: test
           folder: build
+
+      # Custom step to print build information
+      - name: Print build info
+        run: echo "Build completed at $(date)"
+        env:
+          BUILD_ENV: production
+
+      # Custom step to clean up workspace
+      - name: Clean up workspace
+        run: |
+          echo "Cleaning up workspace
