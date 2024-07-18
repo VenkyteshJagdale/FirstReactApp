@@ -13,7 +13,7 @@ jobs:
     runs-on: Window-latest
 
     steps:
-      # Step to checkout the repository
+      # Step to checkout the repository.
       - name: Checkout repository
         uses: actions/checkout@v3
 
