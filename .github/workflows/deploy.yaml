@@ -1,22 +1,15 @@
 name: CI/CD for React App
 
-# Triggers the workflow on different events
+# Triggers the workflow on push, pull request, manual dispatch, and a scheduled time
 on:
   push:
-    branches: 
-      - main
-      - develop
+    branches: [main]
   pull_request:
-    branches: 
-      - main
-      - develop
+    branches: [main]
   workflow_dispatch:
   schedule:
     # Runs at 00:00 UTC every day
     - cron: "0 0 * * *"
-  repository_dispatch:
-    types: 
-      - build
 
 permissions:
   contents: write
@@ -40,6 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Step to run tests
+      - name: Run tests
+        run: npm test
+
       # Step to build the project
       - name: Build Project
         run: npm run build
@@ -52,14 +49,3 @@ jobs:
         with:
           branch: test
           folder: build
-
-      # Custom step to print build information
-      - name: Print build info
-        run: echo "Build completed at $(date)"
-        env:
-          BUILD_ENV: production
-
-      # Custom step to clean up workspace
-      - name: Clean up workspace
-        run: |
-          echo "Cleaning up workspace
