@@ -23,13 +23,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step to set up Node.js
+      # Step to set up Node.js.
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Step to install dependencies
+      # Step to install dependencies.
       - name: Install dependencies
         run: npm install
 
@@ -37,13 +37,13 @@ jobs:
       - name: Run tests
         run: npm test
 
-      # Step to build the project
+      # Step to build the project.
       - name: Build Project
         run: npm run build
         env:
           TEXT: ${{ secrets.TEXT }}
 
-      # Step to deploy to GitHub Pages
+      # Step to deploy to GitHub Pages.
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
