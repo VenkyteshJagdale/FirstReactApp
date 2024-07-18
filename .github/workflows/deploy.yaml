@@ -26,6 +26,8 @@ jobs:
 
       - name: Build Project
         run: npm run build
+        env:
+            TEXT: ${{ vars.TEXT}}  
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
